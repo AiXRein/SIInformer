@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/prefs_general_title">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefs__general_use_embedded_reader_check_box"
+            android:title="@string/prefs_general_use_embedded_reader" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_storage_setting_title"
+        android:key="pref_key_update_settings">
+        <CheckBoxPreference
+            android:key="pref_general_content_save_opened_content_locally_checkbox"
+            android:title="@string/pref_storage_save_opened_content"
+            android:defaultValue="false"/>
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/multi_select_list_preference_title"
+            android:entryValues="@array/multi_select_list_preference_default_value"
+            android:key="prefs_general_content_saved_content_format"
+            android:title="@string/prefs_saved_content_format" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>3 часа</item>
+        <item>6 часов</item>
+        <item>Никогда</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+    <string name="app_name">СИ Информер</string>
+    <string name="menu_add_author">Добавить автора</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="pref_description_enable_content_update">Разрешает обновление в фоновом режиме</string>
+    <string name="pref_header_data_sync">Синхронизация данных</string>
+    <string name="pref_header_general">Общее</string>
+    <string name="pref_header_notifications">Оповещения</string>
+    <string name="pref_ringtone_silent">Без звука</string>
+    <string name="pref_storage_save_opened_content">Сохранять локально весь открываемый контент</string>
+    <string name="pref_storage_setting_title">Настройка хранения содержимого</string>
+    <string name="pref_title_display_name">Отображаемое имя</string>
+    <string name="pref_title_enable_content_update">Разрешить обновление в фоновом режиме</string>
+    <string name="pref_title_ringtone">Сигнал оповещения</string>
+    <string name="pref_title_sync_frequency">Частота обновления</string>
+    <string name="pref_title_updates_notifications">Уведомлять об обновлениях</string>
+    <string name="pref_title_vibrate">Вибрация</string>
+    <string name="pref_update_frequency">Частота обновления в минутах</string>
+    <string name="pref_update_setting_title">Настройки обновления</string>
+    <string name="prefs_general_title">Общие</string>
+    <string name="prefs_general_use_embedded_reader">Использовать встроенную читалку</string>
+    <string name="prefs_saved_content_format">Формат сохраняемого содержимого</string>
+    <string name="prefs_update_only_on_wifi">Обновлять только через WiFi</string>
+    <string name="search_hint">Введите ФИО Автора, либо прямую ссылку на его страницу</string>
+    <string name="title_activity_settings">Настройки</string>
+</resources>

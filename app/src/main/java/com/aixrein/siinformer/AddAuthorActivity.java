@@ -3,6 +3,7 @@ package com.aixrein.siinformer;
 import android.app.SearchManager;
 import android.content.Context;
 import android.preference.ListPreference;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,12 +14,22 @@ import java.io.IOException;
 
 public class AddAuthorActivity extends AppCompatActivity {
 
-    private SearchView authorsSearchView = new SearchView(this);
+   // private SearchView authorsSearchView = new SearchView(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_author);
+        setupActionBar();
+
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
    /* @Override

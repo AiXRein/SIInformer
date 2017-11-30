@@ -80,4 +80,5 @@
     <string name="menu_settings">Setting</string>
     <string name="menu_add_author">Add Author</string>
     <string name="search_hint">Add Author\'s full name or direct link to Author\'s page</string>
+    <string name="space" translatable="false"></string>
 </resources>

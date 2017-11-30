@@ -16,6 +16,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_WORK = "work";
     private static final String TABLE_CATEGORY = "category";
     private static final String TABLE_WORK_TYPE = "work_type";
+    private static final String TABLE_SEARCH_LNKS = "search_links";
 
     // Описание таблицы авторов
     public static final String COLUMN_AUTHOR_ID = "_id";
@@ -48,8 +49,15 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String COLUMN_WORK_TYPE_ID = "_id";
     private static final String COLUMN_WORK_TYPE_NAME = "type";
 
+    // Описание таблицы ссылок
+    private static final String COLUMN_SEARCH_LINK_ID = "_id";
+    private static final String COLUMN_SEARCH_LINK_LETTER = "letter";
+    private static final String COLUMN_SEARCH_LINK_LINK = "link";
+
     private static final String DATABASE_NAME = "siinformer.db";
     private static final int DATABASE_VERSION = 1;
+
+
 
     // Database creation sql statement
     private static final String DATABASE_CREATE_TABLE_AUTHORS = "create table "
@@ -85,6 +93,16 @@ class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_WORK_TYPE_NAME
             + " text not null); ";
 
+    private static final String DATABASE_CREATE_TABLE_SEARCH_LINKS = "create table "
+            + TABLE_SEARCH_LNKS
+            + "("
+            + COLUMN_SEARCH_LINK_ID
+            + " integer primary key autoincrement, "
+            + COLUMN_SEARCH_LINK_LETTER
+            + " text not null, "
+            + COLUMN_SEARCH_LINK_LINK
+            + " text not null);";
+
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -95,6 +113,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(DATABASE_CREATE_TABLE_WORK);
         database.execSQL(DATABASE_CREATE_TABLE_CATEGORY);
         database.execSQL(DATABASE_CREATE_TABLE_WORK_TYPE);
+        database.execSQL(DATABASE_CREATE_TABLE_SEARCH_LINKS);
 
         // ImportSampleData(database);
     }
@@ -108,6 +127,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORK_TYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SEARCH_LNKS);
         onCreate(db);
     }
 

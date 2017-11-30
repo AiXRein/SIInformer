@@ -5,6 +5,14 @@ package com.aixrein.siinformer;
  */
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,8 +23,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -360,6 +371,7 @@ class MyHttpHelper {
     public String postData(String searchStr) {
         // Create a new HttpClient and Post Header
         String response = "";
+        int i=0;
         try {
             URL url = new URL("http://samlib.ru/cgi-bin/seek");
 
@@ -388,10 +400,13 @@ class MyHttpHelper {
             int responseCode=conn.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
+                boolean bool = false;
                 String line;
-                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream(), "windows-1251"));
                 while ((line=br.readLine()) != null) {
                     response+=line;
+                    i++;
                 }
             }
             else {
@@ -401,6 +416,8 @@ class MyHttpHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("Количество строк",Integer.toString(i));
+        response=response.substring(response.indexOf("<center>"),response.lastIndexOf("</center>"));
 
         return response;
     }
@@ -420,6 +437,139 @@ class MyHttpHelper {
         }
 
         return result.toString();
+    }
+
+    public ArrayList<HashMap<String,String>> SearchResultList (String responce){
+        ArrayList<HashMap<String,String>> searchResultList = new ArrayList<HashMap<String,String>>();
+
+        return searchResultList;
+
+    }
+    public static HashMap <String, String> getAlphabetList(){
+        String responce = "";
+
+        try {
+            URL url = new URL("http://samlib.ru");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
+
+
+            int responseCode=conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                boolean bool = false;
+                String line;
+
+                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream(), "windows-1251"));
+                while ((line=br.readLine()) != null) {
+                    responce+=line;
+                }
+                br.close();
+                conn.disconnect();
+            }
+            else {
+                responce="";
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, String> linkMap = new HashMap<String, String>();
+        responce = responce.substring(responce.indexOf("<!------------------ Тело индекса -------------------->")+"<!------------------ Тело индекса --------------------><hr noshade>".length(),responce.indexOf("<a href=/z/index_z.shtml>Z</a>")+ "<a href=/z/index_z.shtml>Z</a>".length());
+        Document doc = Jsoup.parse(responce);
+
+
+
+        Elements links = doc.select("a[href]");
+        for (Element link : links) {
+
+            //put elements in the map
+            linkMap.put(link.text(),link.attr("href"));
+        }
+
+        return linkMap;
+
+    }
+
+    public static ArrayList<HashMap<String, String>> searchAuthor(String query) {
+        ArrayList<HashMap<String, String>> searchResult = new ArrayList<HashMap<String, String>>();
+
+
+
+        return searchResult;
+    }
+
+
+    public static ArrayList<HashMap<String, String>> searchAuthorSuggestion(String link) {
+        ArrayList<HashMap<String, String>> searchResult = new ArrayList<HashMap<String, String>>();
+
+        String responce = "";
+
+        try {
+            URL url = new URL(link);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
+
+
+            int responseCode=conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                boolean bool = false;
+                String line;
+
+                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream(), "windows-1251"));
+                while ((line=br.readLine()) != null) {
+                    responce+=line;
+                }
+                br.close();
+                conn.disconnect();
+            }
+            else {
+                responce="";
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        responce = responce.substring(responce.indexOf("<DL>"), responce.lastIndexOf("</DL>")+ "</DL>".length());
+
+        Document doc = Jsoup.parse(responce);
+        HashMap <String,String> resultRow = new HashMap <String,String>();
+
+
+        //Elements info = doc.select("DD");
+        Elements links = doc.select("a[href]");
+        Elements title = doc.select("DL");
+        /*for (Element author_link : links) {
+
+            //put elements in the map
+           // linkMap.put(link.text(),link.attr("href"));
+        }*/
+
+        int max = links.size();
+        //if (max < info.size()) max = info.size();
+        //if (max < title.size()) max = title.size();
+        String info = "";
+        for (int i=0;i<100;i++){
+            resultRow.put("Name", links.get(i).text());
+            resultRow.put("Link", links.get(i).attr("href"));
+            if(title.get(i).text().indexOf(") ")>0)
+                if (title.get(i).text().substring(title.get(i).text().indexOf(") ")).length()>2) info = title.get(i).text().substring(title.get(i).text().indexOf(")")+2);
+            else info = "";
+            resultRow.put("Info",info);
+            resultRow.put("Title",title.get(i).text().substring(links.get(i).text().length()+1,title.get(i).text().indexOf("\"(")+1));
+            Log.i("Результаты поиска: " + Integer.toString(i),resultRow.toString());
+            searchResult.add(resultRow);
+        }
+
+
+        return searchResult;
     }
 
 }

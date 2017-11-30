@@ -126,9 +126,15 @@ public class MainActivity extends AppCompatActivity {
                 this.startService(new Intent(this, UpdateService.class));
                 Log.v(this.getClass().getName(), "Service started.");
             } */
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Авторы обнаружены");
-            builder.setMessage("Обнаружены следующие авторы");
+            String message = "Обнаружены следующие авторы:" + System.getProperty("line.separator");
+            for(Authors author : AuthorsDS.getAllAuthors())
+            {
+                message = message + author.getAuthorName() + System.getProperty("line.separator");
+            }
+            builder.setMessage(message);
 
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
